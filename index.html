@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home | E-Sports Arena</title>
+    <link rel="icon" type="image/png" href="src/assets/img/icon.png">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom scrollbar for an e-sports vibe */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0f172a;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #38bdf8;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-slate-100 font-sans antialiased text-slate-800 flex flex-col min-h-screen"
+  >
+    <!-- 1. Navbar Component -->
+    <nav
+      class="bg-slate-800 shadow-lg px-6 py-4 flex items-center justify-between sticky top-0 z-50 border-b border-slate-700"
+    >
+      <!-- Updated Impressive Logo (Now Completely Sky Blue) -->
+      <a href="index.html" class="flex items-center gap-3 group">
+        <!-- Custom SVG Lightning Bolt in Sky Blue -->
+        <div
+          class="relative flex items-center justify-center w-10 h-10 bg-gradient-to-br from-sky-400 to-sky-600 rounded-lg shadow-[0_0_15px_rgba(56,189,248,0.4)] group-hover:shadow-[0_0_20px_rgba(56,189,248,0.7)] transition-all duration-300 transform group-hover:-translate-y-0.5"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="w-6 h-6 text-slate-900"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M14.615 1.595a.75.75 0 01.359.852L12.982 9.75h7.268a.75.75 0 01.548 1.262l-10.5 11.25a.75.75 0 01-1.272-.71l1.992-7.302H3.75a.75.75 0 01-.548-1.262l10.5-11.25a.75.75 0 01.913-.143z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <!-- Text hover color is sky-400 -->
+        <span
+          class="text-2xl font-black text-white tracking-widest uppercase italic drop-shadow-md group-hover:text-sky-400 transition-colors duration-300"
+          >E-Arena</span
+        >
+      </a>
+
+      <!-- Navigation Links -->
+      <div class="hidden md:flex gap-8">
+        <!-- Active link and hover borders changed to sky-400 -->
+        <a
+          href="index.html"
+          class="text-white border-b-2 border-sky-400 pb-1 text-sm font-medium transition-all"
+          >Home</a
+        >
+        <a
+          href="./src/pages/about.html"
+          class="text-slate-300 hover:text-white border-b-2 border-transparent hover:border-sky-400 pb-1 text-sm font-medium transition-all"
+          >About</a
+        >
+        <a
+          href="./src/pages/contact.html"
+          class="text-slate-300 hover:text-white border-b-2 border-transparent hover:border-sky-400 pb-1 text-sm font-medium transition-all"
+          >Contact</a
+        >
+        <a
+          href="./src/pages/signin.html"
+          class="text-slate-300 hover:text-white border-b-2 border-transparent hover:border-sky-400 pb-1 text-sm font-medium transition-all"
+          >Sign In</a
+        >
+        <a
+          href="./src/pages/signup.html"
+          class="text-slate-300 hover:text-white border-b-2 border-transparent hover:border-sky-400 pb-1 text-sm font-medium transition-all"
+          >Sign Up</a
+        >
+      </div>
+
+      <!-- Search Bar Component -->
+      <div class="hidden lg:flex items-center gap-3">
+        <label for="search" class="text-slate-400 text-sm font-medium"
+          >Search</label
+        >
+        <div class="relative">
+          <input
+            type="text"
+            id="search"
+            placeholder="Games, Players..."
+            class="pl-3 pr-8 py-1.5 bg-slate-900 border border-slate-700 text-white rounded-md text-sm outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-400/20 transition-all"
+          />
+          <!-- Search icon inside input -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4 text-slate-500 absolute right-2.5 top-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 2. Hero Section Component -->
+    <header
+      class="bg-slate-900 text-center py-24 px-4 shadow-inner relative overflow-hidden"
+    >
+      <div class="relative z-10 max-w-3xl mx-auto">
+        <h1
+          class="text-5xl md:text-6xl font-extrabold text-white mb-6 uppercase tracking-tight"
+        >
+          Welcome to the <span class="text-sky-400">Ultimate</span> Battleground
+        </h1>
+        <p class="text-lg text-slate-300 mb-10">
+          Join the biggest e-sports tournaments, track your favorite teams, and
+          rise to the top of the leaderboards.
+        </p>
+        <div class="flex justify-center gap-4">
+          <a
+            href="./src/pages/signup.html"
+            class="bg-sky-500 hover:bg-sky-400 text-white px-8 py-3 rounded-md font-bold transition-transform transform hover:scale-105 shadow-[0_0_15px_rgba(56,189,248,0.5)]"
+          >
+            Join Now
+          </a>
+          <a
+            href="#tournaments"
+            class="bg-slate-700 hover:bg-slate-600 text-white px-8 py-3 rounded-md font-bold transition-all"
+          >
+            View Tournaments
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- 3. Featured Tournaments Section -->
+    <main class="flex-grow container mx-auto px-4 py-16" id="tournaments">
+      <h2
+        class="text-3xl font-bold text-center text-slate-800 mb-12 uppercase tracking-wide"
+      >
+        Live & Upcoming <span class="text-sky-500">Tournaments</span>
+      </h2>
+
+      <!-- Cards Grid Component -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Card 1 -->
+        <div
+          class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow border border-slate-200"
+        >
+          <div
+            class="h-48 bg-slate-800 flex items-center justify-center overflow-hidden"
+          >
+            <span class="text-slate-500 text-lg"
+              ><img
+                src="./src/assets/img/csgo.png"
+                alt="csgo"
+                class="w-full h-full object-cover"
+            /></span>
+          </div>
+          <div class="p-6">
+            <span
+              class="bg-red-100 text-red-600 text-xs font-bold px-3 py-1 rounded-full uppercase"
+              >Live</span
+            >
+            <h3 class="mt-4 text-xl font-bold text-slate-800">
+              Global Offensive Major 2026
+            </h3>
+            <p class="text-slate-600 text-sm mt-2">Prize Pool: $1,000,000</p>
+            <button
+              class="mt-6 w-full bg-slate-800 hover:bg-slate-900 text-white py-2 rounded-md font-semibold transition-colors"
+            >
+              Watch Stream
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div
+          class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow border border-slate-200"
+        >
+          <div
+            class="h-48 bg-slate-800 flex items-center justify-center overflow-hidden"
+          >
+            <span class="text-slate-500 text-lg"
+              ><img
+                src="./src/assets/img/valorant.jpeg"
+                alt="valorant"
+                class="w-full h-full object-cover"
+            /></span>
+          </div>
+          <div class="p-6">
+            <span
+              class="bg-sky-100 text-sky-600 text-xs font-bold px-3 py-1 rounded-full uppercase"
+              >Upcoming</span
+            >
+            <h3 class="mt-4 text-xl font-bold text-slate-800">
+              Valorant Champions Tour
+            </h3>
+            <p class="text-slate-600 text-sm mt-2">Starts in: 3 Days</p>
+            <button
+              class="mt-6 w-full border-2 border-slate-800 text-slate-800 hover:bg-slate-800 hover:text-white py-2 rounded-md font-semibold transition-colors"
+            >
+              Register Team
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div
+          class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow border border-slate-200"
+        >
+          <div
+            class="h-48 bg-slate-800 flex items-center justify-center overflow-hidden"
+          >
+            <span class="text-slate-500 text-lg"
+              ><img
+                src="./src/assets/img/dota.jpg"
+                alt="dota2"
+                class="w-full h-full object-cover"
+            /></span>
+          </div>
+          <div class="p-6">
+            <span
+              class="bg-slate-200 text-slate-600 text-xs font-bold px-3 py-1 rounded-full uppercase"
+              >Completed</span
+            >
+            <h3 class="mt-4 text-xl font-bold text-slate-800">
+              The International Regional
+            </h3>
+            <p class="text-slate-600 text-sm mt-2">Winner: Team Liquid</p>
+            <button
+              class="mt-6 w-full bg-slate-100 text-slate-500 py-2 rounded-md font-semibold cursor-not-allowed"
+            >
+              View Results
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 4. Footer Component -->
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center mt-auto">
+      <p class="text-sm">© 2026 E-Arena. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
