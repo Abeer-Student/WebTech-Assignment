@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | E-Arena</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #38bdf8; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-slate-100 font-sans antialiased text-slate-800 flex flex-col min-h-screen">
+
+    <!-- Navbar Component -->
+    <!-- Updated Navbar Component -->
+    <nav class="bg-slate-800 shadow-lg px-6 py-4 flex items-center justify-between sticky top-0 z-50 border-b border-slate-700">
+        <a href="../../index.html" class="flex items-center gap-3 group">
+            <div class="relative flex items-center justify-center w-10 h-10 bg-gradient-to-br from-sky-400 to-sky-600 rounded-lg shadow-[0_0_15px_rgba(56,189,248,0.4)]">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-slate-900">
+                    <path fill-rule="evenodd" d="M14.615 1.595a.75.75 0 01.359.852L12.982 9.75h7.268a.75.75 0 01.548 1.262l-10.5 11.25a.75.75 0 01-1.272-.71l1.992-7.302H3.75a.75.75 0 01-.548-1.262l10.5-11.25a.75.75 0 01.913-.143z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <span class="text-2xl font-black text-white tracking-widest uppercase italic">E-Arena</span>
+        </a>
+        
+        <!-- Navigation Links Added -->
+        <div class="hidden md:flex gap-8">
+            <a href="../../index.html" class="text-slate-300 hover:text-white border-b-2 border-transparent hover:border-sky-400 pb-1 text-sm font-medium transition-all">Home</a>
+            <a href="about.html" class="text-slate-300 hover:text-white border-b-2 border-transparent hover:border-sky-400 pb-1 text-sm font-medium transition-all">About</a>
+            <a href="dashboard.html" class="text-white border-b-2 border-sky-400 pb-1 text-sm font-medium transition-all">Dashboard</a>
+            <a href="contact.html" class="text-slate-300 hover:text-white border-b-2 border-transparent hover:border-sky-400 pb-1 text-sm font-medium transition-all">Contact</a>
+            <a href="signin.html" class="text-slate-300 hover:text-white border-b-2 border-transparent hover:border-sky-400 pb-1 text-sm font-medium transition-all">Sign In</a>
+            <a href="signup.html" class="text-slate-300 hover:text-white border-b-2 border-transparent hover:border-sky-400 pb-1 text-sm font-medium transition-all">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="bg-slate-900 text-center py-10 px-4 border-b-4 border-sky-500">
+        <h1 class="text-3xl md:text-4xl font-extrabold text-white uppercase tracking-wider mb-2">
+            Player <span class="text-sky-400">Management</span>
+        </h1>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Left Column: Form to Create/Update -->
+        <div class="lg:col-span-1">
+            <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200 sticky top-28">
+                <h2 class="text-xl font-bold text-slate-800 mb-4" id="form-title">Add New Player</h2>
+                
+                <form id="player-form" class="flex flex-col gap-4">
+                    <input type="hidden" id="player-id"> <!-- Hidden field for updating -->
+                    
+                    <div class="flex flex-col gap-1">
+                        <label class="text-sm font-semibold text-slate-600">Player Name</label>
+                        <input type="text" id="player-name" required class="px-3 py-2 border border-slate-300 rounded-md outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-sm">
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                        <label class="text-sm font-semibold text-slate-600">Game Category</label>
+                        <select id="player-game" required class="px-3 py-2 border border-slate-300 rounded-md outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-sm">
+                            <option value="">Select a game</option>
+                            <option value="CS:GO">CS:GO</option>
+                            <option value="Valorant">Valorant</option>
+                            <option value="Dota 2">Dota 2</option>
+                        </select>
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                        <label class="text-sm font-semibold text-slate-600">Role / Position</label>
+                        <input type="text" id="player-role" required placeholder="e.g. Sniper, IGL" class="px-3 py-2 border border-slate-300 rounded-md outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-sm">
+                    </div>
+
+                    <button type="submit" id="submit-btn" class="mt-2 bg-sky-500 hover:bg-sky-400 text-white font-bold py-2 rounded-md transition-all shadow-md">
+                        Save Player
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Right Column: Display, Search & Delete (Read) -->
+        <div class="lg:col-span-2 flex flex-col gap-6">
+            
+            <!-- Search / Filter Section -->
+            <div class="bg-white p-4 rounded-xl shadow-md border border-slate-200 flex items-center justify-between gap-4">
+                <div class="w-full relative">
+                    <input type="text" id="search-input" placeholder="Search player by name, game or role..." class="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-md outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-sm">
+                    <svg class="w-5 h-5 text-slate-400 absolute left-3 top-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+            </div>
+
+            <!-- Players List Container -->
+            <div id="players-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Data will be injected here via JavaScript -->
+            </div>
+            
+            <!-- Empty State Message -->
+            <div id="empty-state" class="hidden text-center py-10 text-slate-500 bg-white rounded-xl border border-slate-200">
+                No players found. Add a player to get started!
+            </div>
+        </div>
+
+    </main>
+    <!-- Task 2: API Integration Section -->
+    <section class="container mx-auto px-4 py-12 border-t-2 border-slate-200 mt-8 mb-12">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-extrabold text-slate-800 uppercase tracking-wide">Global <span class="text-sky-500">Pro Players</span></h2>
+            <p class="text-slate-500 text-sm mt-2">Live Data Fetched via OpenDota API using Axios GET Request</p>
+        </div>
+        
+        <!-- Loading Message -->
+        <div id="api-loading" class="text-center py-10 text-sky-500 font-bold text-lg animate-pulse">
+            Fetching live API data...
+        </div>
+        
+        <!-- API Data Container (Grid of Cards) -->
+        <div id="api-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
+            <!-- Axios API data aayega idhar -->
+        </div>
+    </section>
+
+    <!-- JavaScript for CRUD, Local Storage & Array Methods -->
+    <script>
+        // DOM Elements
+        const playerForm = document.getElementById('player-form');
+        const playerIdInput = document.getElementById('player-id');
+        const playerNameInput = document.getElementById('player-name');
+        const playerGameInput = document.getElementById('player-game');
+        const playerRoleInput = document.getElementById('player-role');
+        const submitBtn = document.getElementById('submit-btn');
+        const formTitle = document.getElementById('form-title');
+        const playersContainer = document.getElementById('players-container');
+        const searchInput = document.getElementById('search-input');
+        const emptyState = document.getElementById('empty-state');
+
+        // State: Array of Objects
+        let players = [];
+
+        // 1. READ: Fetch data from Local Storage on load
+        function loadData() {
+            const storedPlayers = localStorage.getItem('eArenaPlayers');
+            if (storedPlayers) {
+                players = JSON.parse(storedPlayers);
+            }
+            displayPlayers(players);
+        }
+
+        // Display Function using map() Array Method
+        function displayPlayers(dataArray) {
+            playersContainer.innerHTML = ''; // Clear container
+            
+            if (dataArray.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                
+                // Array Method: map()
+                const cardsHTML = dataArray.map(player => `
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-lg font-bold text-slate-800">${player.name}</h3>
+                            <span class="bg-sky-100 text-sky-600 text-xs px-2 py-1 rounded-full font-bold">${player.game}</span>
+                        </div>
+                        <p class="text-sm text-slate-500 mb-4">Role: <span class="font-semibold text-slate-700">${player.role}</span></p>
+                        
+                        <div class="flex gap-2 border-t pt-3 mt-2">
+                            <button onclick="editPlayer(${player.id})" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded font-medium transition-colors">Edit</button>
+                            <button onclick="deletePlayer(${player.id})" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded font-medium transition-colors">Delete</button>
+                        </div>
+                    </div>
+                `).join('');
+                
+                playersContainer.innerHTML = cardsHTML;
+            }
+        }
+
+        // 2. CREATE & UPDATE (Save Record)
+        playerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newPlayer = {
+                id: playerIdInput.value ? parseInt(playerIdInput.value) : Date.now(), // Generate unique ID if new
+                name: playerNameInput.value,
+                game: playerGameInput.value,
+                role: playerRoleInput.value
+            };
+
+            if (playerIdInput.value) {
+                // UPDATE: Array Method - map()
+                players = players.map(p => p.id === newPlayer.id ? newPlayer : p);
+            } else {
+                // CREATE
+                players.push(newPlayer);
+            }
+
+            // Save to Local Storage
+            localStorage.setItem('eArenaPlayers', JSON.stringify(players));
+            
+            // Reset Form & UI
+            playerForm.reset();
+            playerIdInput.value = '';
+            formTitle.textContent = "Add New Player";
+            submitBtn.textContent = "Save Player";
+            
+            displayPlayers(players);
+        });
+
+        // 3. DELETE
+        function deletePlayer(id) {
+            if(confirm("Are you sure you want to delete this record?")) {
+                // Array Method: filter()
+                players = players.filter(player => player.id !== id);
+                localStorage.setItem('eArenaPlayers', JSON.stringify(players));
+                
+                // Clear search if active, and refresh
+                searchInput.value = '';
+                displayPlayers(players);
+            }
+        }
+
+        // 4. UPDATE (Populate form)
+        function editPlayer(id) {
+            // Array Method: find()
+            const playerToEdit = players.find(player => player.id === id);
+            
+            if (playerToEdit) {
+                playerIdInput.value = playerToEdit.id;
+                playerNameInput.value = playerToEdit.name;
+                playerGameInput.value = playerToEdit.game;
+                playerRoleInput.value = playerToEdit.role;
+                
+                formTitle.textContent = "Update Player";
+                submitBtn.textContent = "Update Record";
+            }
+        }
+
+        // 5. SEARCH & FILTER
+        searchInput.addEventListener('keyup', function(e) {
+            const query = e.target.value.toLowerCase();
+            
+            // Array Method: filter()
+            const filteredPlayers = players.filter(player => {
+                return player.name.toLowerCase().includes(query) || 
+                       player.game.toLowerCase().includes(query) || 
+                       player.role.toLowerCase().includes(query);
+            });
+            
+            displayPlayers(filteredPlayers);
+        });
+
+        // Initialize on page load
+        // --- TASK 2: AXIOS API INTEGRATION ---
+        const apiContainer = document.getElementById('api-container');
+        const apiLoading = document.getElementById('api-loading');
+
+        function fetchLivePlayers() {
+            // Axios GET Request to Public API
+            axios.get('https://api.opendota.com/api/proPlayers')
+                .then(response => {
+                    // Hide loading and show container
+                    apiLoading.classList.add('hidden');
+                    apiContainer.classList.remove('hidden');
+                    
+                    // Sirf top 6 players ka data lenge display ke liye
+                    const proPlayers = response.data.slice(0, 6);
+                    
+                    // UI UI Components (Cards) mein map karna
+                    const apiHTML = proPlayers.map(player => `
+                        <div class="bg-slate-800 p-5 rounded-xl shadow-lg border border-slate-700 hover:-translate-y-1 transition-transform">
+                            <div class="flex items-center gap-4 mb-3">
+                                <img src="${player.avatarfull}" alt="${player.personaname}" onerror="this.src='https://via.placeholder.com/150'" class="w-16 h-16 rounded-full border-2 border-sky-400">
+                                <div>
+                                    <h3 class="text-lg font-bold text-white">${player.personaname}</h3>
+                                    <span class="text-xs text-sky-400 font-semibold uppercase bg-slate-900 px-2 py-1 rounded">Team: ${player.team_name || 'Free Agent'}</span>
+                                </div>
+                            </div>
+                            <p class="text-sm text-slate-400 border-t border-slate-600 pt-3">Country: <span class="text-white font-medium uppercase">${player.loccountrycode || 'N/A'}</span></p>
+                        </div>
+                    `).join('');
+                    
+                    apiContainer.innerHTML = apiHTML;
+                })
+                .catch(error => {
+                    // Error Handling
+                    apiLoading.textContent = "Failed to load live data from API.";
+                    apiLoading.classList.replace('text-sky-500', 'text-red-500');
+                    console.error("Axios API Fetch Error:", error);
+                });
+        }
+
+        // Initialize Both Local Storage and API on Page Load
+        window.onload = function() {
+            loadData(); // Read Local Storage data
+            fetchLivePlayers(); // Fetch Axios API data
+        };
+    </script>
+</body>
+</html>
